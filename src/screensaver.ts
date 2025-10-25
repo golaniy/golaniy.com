@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
+import { FontLoader, Font } from "three/examples/jsm/loaders/FontLoader.js";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js";
 
 export function initScreensaver(container: HTMLElement) {
@@ -21,7 +21,7 @@ export function initScreensaver(container: HTMLElement) {
   });
 
   let textMesh: THREE.Mesh<TextGeometry, THREE.MeshNormalMaterial>;
-  let font: THREE.Font;
+  let font: Font;
 
   const loader = new FontLoader();
   loader.load(
@@ -38,7 +38,7 @@ export function initScreensaver(container: HTMLElement) {
     },
   );
 
-  function createGeometry(font: THREE.Font, size: number) {
+  function createGeometry(font: Font, size: number) {
     const geometry = new TextGeometry("golaniy.com", {
       font: font,
       depth: 2,
