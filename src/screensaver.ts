@@ -14,6 +14,12 @@ export function initScreensaver(container: HTMLElement) {
   renderer.setSize(window.innerWidth, window.innerHeight);
   container.appendChild(renderer.domElement);
 
+  window.addEventListener("resize", () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+
   let textMesh: THREE.Mesh<TextGeometry, THREE.MeshNormalMaterial>;
   let font: THREE.Font;
 
@@ -22,7 +28,7 @@ export function initScreensaver(container: HTMLElement) {
     "https://threejs.org/examples/fonts/helvetiker_regular.typeface.json",
     function (loadedFont) {
       font = loadedFont;
-      const size = Math.min(10, window.innerWidth / 50);
+      const size = Math.min(1, window.innerWidth / 50);
       const geometry = createGeometry(font, size);
       const material = new THREE.MeshNormalMaterial();
       textMesh = new THREE.Mesh(geometry, material);
@@ -35,7 +41,7 @@ export function initScreensaver(container: HTMLElement) {
   function createGeometry(font: THREE.Font, size: number) {
     const geometry = new TextGeometry("golaniy.com", {
       font: font,
-      depth: 3,
+      depth: 2,
       size,
       curveSegments: 12,
       bevelEnabled: true,
@@ -58,18 +64,6 @@ export function initScreensaver(container: HTMLElement) {
       renderer.render(scene, camera);
     }
   }
-
-  window.addEventListener("resize", () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    if (textMesh) {
-      const size = Math.min(10, window.innerWidth / 50);
-      textMesh.geometry.dispose();
-      textMesh.geometry = createGeometry(font, size);
-      camera.position.z = size * 6;
-    }
-  });
 
   window.addEventListener("click", () => {
     if (textMesh) {
